@@ -38,6 +38,12 @@
                     components: ['Dashboard/Index'],
                 },
                 {
+                    label: "Items",
+                    route: route('items.index'),
+                    condition: true,
+                    components: ['Items/Index'],
+                },
+                {
                     label: "Account",
                     route: route("account.edit"),
                     condition: true,
