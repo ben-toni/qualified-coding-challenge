@@ -13,7 +13,11 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Item::with('user')->latest()->cursorPaginate(10);
+        $cursor = $request->query('cursor');
+
+        $items = Item::with('user')
+            ->orderBy('id', 'desc')
+            ->cursorPaginate(10, ['*'], 'cursor', $cursor);
 
         if ($request->wantsJson()) {
             return response()->json([
