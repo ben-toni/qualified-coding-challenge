@@ -25,6 +25,13 @@ const loadMore = async () => {
     loading.value = false
 }
 
+const deleteItem = async (id) => {
+    if (!confirm('Are you sure you want to delete this item?')) return;
+
+    await axios.delete(route('items.destroy', id));
+    items.value = items.value.filter(item => item.id !== id);
+};
+
 const onScroll = () => {
     const bottomReached = scrollArea.value.scrollHeight - scrollArea.value.scrollTop <= scrollArea.value.clientHeight + 200
     if (bottomReached) loadMore()
@@ -48,11 +55,17 @@ onMounted(() => {
 
         <div ref="scrollArea" class="w-full scroll-area">
             <div v-for="item in items" :key="item.id" class="p-4 border-b">
-                <div class="flex items-start gap-4">
-                    <img v-if="item.image_path" :src="`/storage/${item.image_path}`" alt="Item Image" class="w-16 h-16 object-contain flex-shrink-0">
-                    <div class="flex flex-col">
-                        <h2 class="font-bold">{{ item.title }}</h2>
-                        <div v-html="item.description" class="text-gray-700"></div>
+                <div class="flex justify-between items-start gap-4">
+                    <div class="flex items-start gap-4">
+                        <img v-if="item.image_path" :src="`/storage/${item.image_path}`" alt="Item Image" class="w-16 h-16 object-contain flex-shrink-0">
+                        <div class="flex flex-col">
+                            <h2 class="font-bold">{{ item.title }}</h2>
+                            <div v-html="item.description" class="text-gray-700"></div>
+
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button @click="deleteItem(item.id)" class="text-red-500 text-sm">Delete</button>
                     </div>
                 </div>
             </div>

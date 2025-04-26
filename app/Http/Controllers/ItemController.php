@@ -11,7 +11,7 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\JsonResponse|\Inertia\Response
     {
         $cursor = $request->query('cursor');
 
@@ -43,7 +43,7 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -94,6 +94,8 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+
+        return response(['success' => 'Item deleted.']);
     }
 }
