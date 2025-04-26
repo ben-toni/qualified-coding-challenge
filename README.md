@@ -15,6 +15,8 @@
 - Used cursor pagination for efficient infinite scroll.
 
 ## Improvements with More Time
-- Add update & delete item features
-- Add full mobile responsiveness
-- Add validation tests and model tests
+- Add update item features (it was something I was working on before hitting 2h, so I stopped)
+- Add service for the item model (move logic from controller to them)
+- Update validation for create item (use request classes)
+- Add proper testing cases for item functionality
+- Add full mobile responsiveness and update the style to match the Qualified design
