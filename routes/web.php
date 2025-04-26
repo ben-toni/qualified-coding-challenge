@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Role;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('health', Spatie\Health\Http\Controllers\HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value]);
@@ -57,3 +58,9 @@ Route::controller(App\Http\Controllers\EmailVerificationController::class)
         Route::get('verify/{id}/{hash}', 'store')->middleware(['signed'])->name('verification.verify');
         Route::post('verify/resend', 'update')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
     });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+    Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+});
